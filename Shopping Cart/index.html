@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Vue Test Page</title>
+        <link rel="stylesheet" href="./index.css">
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            <template v-if="list.length">
+                <div v-for="(l, i) in list">
+                    <p> {{ l.class+':' }} </p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Count</th>
+                                <th>Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in l.items">
+                                <td><input type="checkbox" 
+                                    :checked="selected.indexOf(item.id)!==-1"
+                                    @click="switchCheck(item.id)">{{ index+1 }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>
+                                    <button 
+                                        @click="minusOne(i, index)"
+                                        :disabled="item.count===1">-</button>
+                                    {{ item.count }}
+                                    <button 
+                                        @click="addOne(i, index)">+</button></td>
+                                <td><button @click="list[i].items.splice(index,1)">Remove</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <input type="checkbox" 
+                    @click="switchAll">Select All</input>
+                <div>Total: ￥ {{ totalPrice }}</div>
+            </template>
+            <div v-else>Cart Is Empty!</div>
+        </div>
+        <script src="http://unpkg.com/vue/dist/vue.min.js"></script>
+        <script src="./index.js"></script>
+    </body>
+</html>
